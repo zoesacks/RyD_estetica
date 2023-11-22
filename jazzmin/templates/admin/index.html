@@ -1,0 +1,17 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static jazzmin %}
+{% get_jazzmin_ui_tweaks as jazzmin_ui %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block content_title %} {% trans 'Dashboard' %} {% endblock %}
+
+
+
+{% block content %}
+    <div class="col-lg-12 col-12">
+        <div class="row">
+            <h3>mi menu principal</h3>
+        </div>
+    </div>
+{% endblock %}
