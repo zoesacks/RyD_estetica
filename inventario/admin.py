@@ -8,14 +8,15 @@ from django.contrib import admin
 from import_export import resources, fields, widgets
 from import_export.admin import ImportExportModelAdmin
 from configuracion.models import miEmpresa,deposito
-from inventario.models import movimientoInventarios
 from django.core.exceptions import ValidationError
 # -----------------------------------------------------------------------------
 # Modelado de vistas del administrador
 # -----------------------------------------------------------------------------
 # Importacion de modelos
-from .models import producto
+from .models import producto, movimientoInventarios, Compra, DetalleCompra, Venta, DetalleVenta
 from configuracion.models import proveedor,categoria
+
+
 
 
 # -----------------------------------------------------------------------------
@@ -43,8 +44,10 @@ class productoResource(resources.ModelResource):
                         raise ValidationError("La columna 'Nombre' no puede estar vacío.")
                 if not row.get('Cantidad'):
                         raise ValidationError("La columna 'proveedor' no puede estar vacío.")
+                '''
                 if not row.get('Rentabilidad'):
                         raise ValidationError("La columna 'Rentabilidad' no puede estar vacío.")
+                '''
                 if not row.get('PrecioCosto'):
                         raise ValidationError("La columna 'PrecioCosto' no puede estar vacío.")
 
@@ -57,12 +60,11 @@ class productoResource(resources.ModelResource):
 @admin.register(producto)
 class productoAdmin(ImportExportModelAdmin):
     resource_class = productoResource
-    list_display = ('Codigo','nombre','Categoria','Proveedor','ultimo_costo','precio_venta','UltimaModificacion')
+    list_display = ('Codigo','nombre','Categoria','Proveedor','ultimo_costo','UltimaModificacion')
     list_display_links = ('Codigo','nombre',)
-    list_filter=('Categoria','HabilitarVenta','Stock')
+    list_filter=('Categoria',)
     search_fields = ('Codigo','Descripcion',)
-    exclude=('Usuario','CostoDolar','HabilitarVenta')
-    readonly_fields = ('Stock',)
+    exclude=('Usuario','CostoDolar','HabilitarVenta', 'Rentabilidad', 'Stock',)
     list_per_page = 20  
     
     def ultimo_costo(self,obj):
@@ -91,6 +93,43 @@ class productoAdmin(ImportExportModelAdmin):
         except ValueError:
             pass
         return queryset, use_distinct
+
+class DetalleCompraInline(admin.StackedInline):
+    model = DetalleCompra
+    extra = 1
+
+@admin.register(Compra)
+class CompraAdmin(admin.ModelAdmin):
+    list_display = ('codigo', 'fecha')
+    inlines = [
+        DetalleCompraInline,
+    ]
+
+
+class DetalleVentaInline(admin.StackedInline):
+    model = DetalleVenta
+    extra = 1
+
+@admin.register(Venta)
+class VentaAdmin(admin.ModelAdmin):
+    list_display = ('cliente', 'fecha', 'mostrar_detalles', 'Total')
+    inlines = [
+        DetalleVentaInline,
+    ]
+
+    def mostrar_detalles(self, obj):
+        detalles_venta = obj.detalleventa_set.all()
+        detalles = ", ".join(
+            f"{detalle.producto.Nombre} x {detalle.cantidad}"
+            for detalle in detalles_venta
+        )
+        return detalles
+
+    def Total(self, obj):
+        detalles_venta = obj.detalleventa_set.all()  # Obtén todos los detalles de la venta
+        costo_total = sum(detalle.cantidad * detalle.costo_unidad for detalle in detalles_venta)
+        return costo_total
+
 
 # -----------------------------------------------------------------------------
 # Vista de movimientos de inventarios (Inventario de productos)

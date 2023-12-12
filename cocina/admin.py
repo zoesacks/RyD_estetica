@@ -8,43 +8,46 @@
 # Importacion de modelos
 from django.contrib import admin
 import pytz
-from .models import orden, productoOrden, receta,productoReceta,subReceta,productoSubReceta,gastosAdicionalesReceta,subRecetaReceta
+from .models import orden, productoOrden, receta,productoReceta, gastosAdicionalesReceta
 from configuracion.models import miEmpresa
 from .Reporte import generar_presupuesto
 from .Autorizaciones import confirmar_orden,terminar_orden
+
+
 # -----------------------------------------------------------------------------
 #   Administradores de vistas inlines
 #
-class productoOrdenInline(admin.TabularInline):
+class productoOrdenInline(admin.StackedInline):
     model = productoOrden
     extra = 1
-    fields = ('Producto', 'Cantidad')
+    fields = ('Producto',)
     search_fields = ('Producto',)
 
-class productoRecetaInline(admin.TabularInline):
+class productoRecetaInline(admin.StackedInline):
     model = productoReceta
     extra = 1
-    fields = ('Producto', 'Cantidad','MedidaUso')
+    fields = ('Producto', 'Cantidad',)
     autocomplete_fields = ('Producto',)
 
+'''
 class productoSubRecetaInline(admin.TabularInline):
     model = productoSubReceta
     extra = 1
     fields = ('Producto', 'Cantidad','MedidaUso',)
     autocomplete_fields = ('Producto',)
+'''
 
-
-class gastosAdicionalesRecetaInline(admin.TabularInline):
+class gastosAdicionalesRecetaInline(admin.StackedInline):
     model = gastosAdicionalesReceta
     extra = 1
     fields = ('Adicional', 'Importe',)
 
-
+'''
 class subRecetaRecetaInline(admin.TabularInline):
     model = subRecetaReceta
     extra = 1
     fields = ('SubReceta', 'Cantidad',)
-
+'''
 
 # -----------------------------------------------------------------------------
 #   Administradores de vistas
@@ -52,33 +55,38 @@ class subRecetaRecetaInline(admin.TabularInline):
 @admin.register(orden)
 class ordenAdmin(admin.ModelAdmin):
 
-    list_display = ('orden','estado','Cliente','FechaEntrega','total')
-    list_display_links = ('estado','Cliente',)
-    #readonly_fields = ('Stock',)
-    list_filter = ('Estado','Cliente','FechaOrden',)
+    list_display = ('orden','estado', 'Cliente','Fecha_de_la_sesion','Costo', 'precio_final', 'ganancia',)
+    list_display_links = ('orden',)
+    readonly_fields = ('Costo',)
+    list_filter = ('Cliente','FechaOrden',)
     exclude = ('Usuario','Estado','TotalOrden')
     list_per_page = 25
-    actions = [confirmar_orden,terminar_orden]
+
+    actions=[terminar_orden,]
  
     inlines = [
         productoOrdenInline,
         #IngredienteRecetaInline,
     ]
 
+    def Fecha_de_la_sesion(self, obj):
+        return obj.FechaEntrega
+        
+    def Costo(self,obj):
+        return str(" ${:,.2f}".format(obj.total_costo()))
+
+    def ganancia(self,obj):
+        return str(" ${:,.2f}".format(float(obj.costoFinal) - obj.total_costo()))
+    
+    def precio_final(self, obj):
+        return str(" ${:,.2f}".format(obj.costoFinal))
+
     def orden(self,obj):
         presup = obj.pk
         return f'# {presup}'
     
     def total(self, obj):
-        moneda = miEmpresa.objects.first()
-
-        if obj.Estado == "Pendiente":
-            print(obj.Estado)
-            return str(moneda.Moneda) + str(" {:,.2f}".format(obj.total_costo()))
-
-        else:
-            print(obj.Estado)
-            return str(moneda.Moneda) + str(" {:,.2f}".format(obj.TotalOrden))
+        return str(" {:,.2f}".format(obj.total_costo()))
 
     def estado(self,obj):
 
@@ -87,7 +95,8 @@ class ordenAdmin(admin.ModelAdmin):
         elif obj.Estado == "Aceptado":
             return "🟠 En curso"
         else:
-            return "🟢 Entregado"
+            return "🟢 Terminado"
+
         
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
@@ -98,6 +107,50 @@ class ordenAdmin(admin.ModelAdmin):
             r#eturn queryset.exclude(Estado='Entregado')
 
 
+
+# -----------------------------------------------------------------------------
+#   Administradores de vistas
+#
+@admin.register(receta)
+class recetaAdmin(admin.ModelAdmin):
+
+    list_display = ('Nombre','Categoria','costo_del_tratamiento',)
+    list_display_links = ('Nombre',)
+    list_filter = ('Nombre','Estado',)
+    readonly_fields = ('costo_del_tratamiento',)
+    exclude = ('Usuario','Estado','GeneraComanda', 'MedidaUso','Rentabilidad', 'precio_final', 'ganancia', 'costo_final')
+    list_per_page = 25
+    actions = [terminar_orden]
+    
+    inlines = [
+        productoRecetaInline,
+        gastosAdicionalesRecetaInline,
+        #subRecetaRecetaInline,
+    ]
+
+    def ganancia(self,obj):
+        return str(" ${:,.2f}".format(float(obj.costo_final) - obj.costo_receta()))
+
+    def costo_del_tratamiento(self,obj):
+        return str(" ${:,.2f}".format(obj.costo_receta()))
+    
+    def receta(self,obj):
+        texto = obj.pk
+        return f'# {texto}'
+    
+    def precio_final(self, obj):
+        return str(" ${:,.2f}".format(obj.costo_final))
+    
+    def ultima_actualizacion(self, obj): 
+        hora_buenos_aires = pytz.timezone('America/Argentina/Buenos_aires')
+        fecha_hora = obj.UltimaModificacion.astimezone(hora_buenos_aires)
+        formateo = fecha_hora.strftime("%H:%M %d/%m/%Y")
+
+        formateo = "📆 " +formateo
+        return formateo
+
+
+'''
 # -----------------------------------------------------------------------------
 #   Administradores de vistas
 #
@@ -135,48 +188,4 @@ class subRecetaAdmin(admin.ModelAdmin):
 
         formateo = "📆 " +formateo
         return formateo
-
-# -----------------------------------------------------------------------------
-#   Administradores de vistas
-#
-@admin.register(receta)
-class recetaAdmin(admin.ModelAdmin):
-
-    list_display = ('Nombre','Categoria','costo_receta','rentabilidad','precio_unitario','ultima_actualizacion',)
-    list_display_links = ('Nombre',)
-    list_filter = ('Nombre','Estado',)
-    exclude = ('Usuario','Estado','GeneraComanda')
-    readonly_fields=('precio_unitario',)
-    list_per_page = 25
-    actions = [generar_presupuesto,]
-    
-    inlines = [
-        gastosAdicionalesRecetaInline,
-        productoRecetaInline,
-        subRecetaRecetaInline,
-    ]
-
-    def rentabilidad(self,obj):
-        return str("% {:,.2f}".format(obj.Rentabilidad))
-    
-    def receta(self,obj):
-        texto = obj.pk
-        return f'# {texto}'
-    
-    def costo_receta(self, obj):
-        moneda = miEmpresa.objects.first()
-        return str(moneda.Moneda) + str(" {:,.2f}".format(obj.costo_receta()))
-    
-    def precio_unitario(self, obj):
-        moneda = miEmpresa.objects.first()
-        return str(moneda.Moneda) + str(" {:,.2f}".format(obj.precio_unitario()))
-    
-    def ultima_actualizacion(self, obj): 
-        hora_buenos_aires = pytz.timezone('America/Argentina/Buenos_aires')
-        fecha_hora = obj.UltimaModificacion.astimezone(hora_buenos_aires)
-        formateo = fecha_hora.strftime("%H:%M %d/%m/%Y")
-
-        formateo = "📆 " +formateo
-        return formateo
-
-
+'''

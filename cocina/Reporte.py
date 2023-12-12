@@ -8,7 +8,7 @@ import os
 import locale
 from django.core.files.storage import default_storage
 
-from cocina.models import gastosAdicionalesReceta,productoReceta,subRecetaReceta
+from cocina.models import gastosAdicionalesReceta,productoReceta
 
 @admin.action(description="Descargar Receta")
 def generar_presupuesto(modeladmin, request, queryset):

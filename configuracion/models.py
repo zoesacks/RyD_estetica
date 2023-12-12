@@ -132,6 +132,8 @@ class gastosAdicionales(models.Model):
         verbose_name = 'gasto'  # Como se va a nombrar el objeto de la instancia
         verbose_name_plural ='gastos adicionales' # Como se nombra el modelo
 
+
+
 # -----------------------------------------------------------------------------
 # Metodos para acceder a los valores de forma dinamica
 #   configuracion.moneda()   ---> devuelve la moneda en la que se trabaja

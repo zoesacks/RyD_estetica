@@ -29,11 +29,9 @@ def terminar_orden(modeladmin, request, queryset):
     
     orden = queryset[0]
 
-    if orden.Estado == "Aceptado":
-        orden.Estado = "Entregado"
-        orden.save()
-        messages.error(request, "Pedido finalizado correctamente.")
-        return
-    else:
-        messages.error(request, "El pedido no se encuentra en curso.")
-        return
+    
+    orden.Estado = "Entregado"
+    orden.save()
+    messages.success(request, "Sesion terminada correctamente.")
+    return
+    

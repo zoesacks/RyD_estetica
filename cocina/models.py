@@ -30,6 +30,7 @@ class orden(models.Model): # Comanda
     TotalOrden = models.DecimalField(max_digits=25, decimal_places=2, default=0, blank=False, null=False)
     UltimaModificacion = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     Usuario = models.CharField(max_length=120, null=True, blank=True)   
+    costoFinal = models.DecimalField(max_digits=20, decimal_places=2, default=0, blank=False, null=False)
         
     def __str__(self):
         return f'#{self.pk} | Cliente: {self.Cliente}'
@@ -42,9 +43,7 @@ class orden(models.Model): # Comanda
 
         if self.pk:
             if self.Estado == "Entregado":
-                raise ValidationError("No es posible modificar una comanda finalizada.")
-            elif self.Estado == "Aceptado":
-                raise ValidationError("No es posible modificar una comanda en curso.")
+                raise ValidationError("No es posible modificar una tratamiento finalizado.")
             
             
         super().clean()
@@ -72,13 +71,13 @@ class receta(models.Model):
     Usuario = models.CharField(max_length=120, null=True, blank=True)
     GeneraComanda = models.BooleanField(default=False) 
     Estado = models.BooleanField(default=False)   
+    costo_final = models.DecimalField(max_digits=20, decimal_places=2, default=0, blank=True, null=True)
 
     def __str__(self):
         return f'{self.Nombre}'
     
     def clean(self):
-        if self.Rentabilidad > 99:
-            raise ValidationError("Rentabilidad máxima 99%")
+        self.costo_final = 0
         super().clean()
 
     class Meta:
@@ -93,25 +92,101 @@ class receta(models.Model):
         productos = productoReceta.objects.filter(Receta=self)
         suma_productos = sum(float(producto.subtotal()) if producto.subtotal() is not None else 0 for producto in productos)
 
-        subrecetas = subRecetaReceta.objects.filter(Receta=self)
-        subreceta = sum(float(subreceta.SubReceta.costo_porcion()) * float(subreceta.Cantidad) if subreceta.SubReceta.costo_porcion() is not None else 0 for subreceta in subrecetas)
+        #subrecetas = subRecetaReceta.objects.filter(Receta=self)
+        #subreceta = sum(float(subreceta.SubReceta.costo_porcion()) * float(subreceta.Cantidad) if subreceta.SubReceta.costo_porcion() is not None else 0 for subreceta in subrecetas)
 
-        total = round(float(Decimal(suma_productos)) + float(suma_adicionales) + float(subreceta), 2)
+        total = round(float(Decimal(suma_productos)) + float(suma_adicionales), 2)
 
         return total
 
 
     def precio_unitario(self):
+        return self.costo_receta()
+#
+# -----------------------------------------------------------------------------
+# Metodos para acceder a los valores de forma dinamica
+#
+class productoReceta(models.Model):
+    Producto  = models.ForeignKey(producto, on_delete=models.CASCADE)
+    Receta = models.ForeignKey(receta, on_delete=models.CASCADE)
+    Cantidad = models.DecimalField(max_digits=20, decimal_places=2, default=1, blank=False, null=False)
+    MedidaUso =  models.CharField(max_length=10, choices=UnidadDeMedida, default="Unidades", null=False, blank=False)
+    UltimaModificacion = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    Usuario = models.CharField(max_length=120, null=True, blank=True)   
 
-        ganancia = float(self.Rentabilidad)
-        costo = float(self.costo_receta())
+    class Meta:
+        verbose_name = 'producto'
+        verbose_name_plural ='Productos incluidos en tratamiento' 
 
-        if ganancia < 100:
-            precio = float((costo / (float(100) - ganancia)) * 100 )
-        else:
-            precio = 0  
+    def __str__(self):
+        return str(self.Producto.Nombre)
+    
+    def clean(self):
 
-        return precio
+        # Validacion de cantidad
+        if self.Cantidad <= 0:
+            raise ValidationError("Por favor ingrese una cantidad superior a 0.")
+        
+        self.MedidaUso = self.Producto.UnidadMedida
+
+        super().clean()
+
+    def subtotal(self):
+
+        calculo = calculadora_unitario(medida_compra=self.Producto.UnidadMedida,medida_uso=self.MedidaUso,costo=(self.Producto.PrecioCosto / self.Producto.Cantidad),cantidad=self.Cantidad)
+        # print(f' costo mililitro: {(self.Producto.PrecioCosto / self.Producto.Cantidad)}')
+        # print(f' cantidad : {self.Producto.Cantidad}')
+
+        return calculo
+     
+    def save(self, *args, **kwargs):
+        # self.costo_unitario = self.producto.COSTO_UNITARIO
+        # self.medida_uso = self.producto.UNIDAD_MEDIDA_USO
+        # self.subtotal = self.producto.PRECIO_VENTA * self.cantidad
+        super().save(*args, **kwargs)
+#
+# -----------------------------------------------------------------------------
+# Metodos para acceder a los valores de forma dinamica
+# 
+class productoOrden(models.Model):
+    Orden  = models.ForeignKey(orden, on_delete=models.CASCADE)
+    Producto = models.ForeignKey(receta, on_delete=models.CASCADE)
+    Cantidad = models.DecimalField(max_digits=20, decimal_places=2, default=1, blank=False, null=False)
+    MedidaUso = models.CharField(max_length=20,choices=UnidadDeMedida,default='Unidades',blank=False,null=False)  
+    CostoUnitario = models.DecimalField(max_digits=20, decimal_places=2,blank=True,null=True)
+    UltimaModificacion = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    Usuario = models.CharField(max_length=120, null=True, blank=True)   
+
+    def subtotal(self,obj):
+        total = 0
+        return total
+
+
+
+# 
+# -----------------------------------------------------------------------------
+# Metodos para acceder a los valores de forma dinamica
+#
+class gastosAdicionalesReceta(models.Model):
+    Receta = models.ForeignKey(receta, on_delete=models.CASCADE)
+    Adicional  = models.ForeignKey(gastosAdicionales, on_delete=models.CASCADE)
+    Importe = models.DecimalField(max_digits=20, decimal_places=2, default=0, blank=False, null=False)
+    Usuario = models.CharField(max_length=120, null=True, blank=True)   
+
+    class Meta:
+        verbose_name = 'gasto'
+        verbose_name_plural ='Adicionales incluidos en la tratamiento' 
+
+    def __str__(self):
+        return str(self.Receta.Nombre)
+    
+    def clean(self):
+        if self.Importe <= 0:
+            raise ValidationError("El importe del gasto adicional no puede ser inferior o igual a $ 0.")
+        super().clean()
+
+
+'''
 
 #
 # -----------------------------------------------------------------------------
@@ -147,89 +222,8 @@ class subReceta(models.Model):
         suma_detalles = sum(detalle.total() for detalle in detalles)
         valor = round(float(suma_detalles),2)
         return valor
-#
-# -----------------------------------------------------------------------------
-# Metodos para acceder a los valores de forma dinamica
-#
-class productoReceta(models.Model):
-    Producto  = models.ForeignKey(producto, on_delete=models.CASCADE)
-    Receta = models.ForeignKey(receta, on_delete=models.CASCADE)
-    Cantidad = models.DecimalField(max_digits=20, decimal_places=2, default=1, blank=False, null=False)
-    MedidaUso =  models.CharField(max_length=10, choices=UnidadDeMedida, default="Unidades", null=False, blank=False)
-    UltimaModificacion = models.DateTimeField(auto_now_add=True,blank=True,null=True)
-    Usuario = models.CharField(max_length=120, null=True, blank=True)   
 
-    class Meta:
-        verbose_name = 'producto'
-        verbose_name_plural ='Productos incluidos en tratamiento' 
-
-    def __str__(self):
-        return str(self.Producto.Nombre)
-    
-    def clean(self):
-
-        # Validacion de cantidad
-        if self.Cantidad <= 0:
-            raise ValidationError("Por favor ingrese una cantidad superior a 0.")
         
-        medida_compra = self.Producto.UnidadMedida
-        medida_uso = self.MedidaUso
-
-        # Validacion de unidad de medida
-        if medida_compra != medida_uso:
-
-            if medida_compra == "Unidades":
-                if medida_uso != "Unidades":
-                    raise ValidationError("La unica medida de uso aceptada es 'Unidades'.") 
-            elif medida_compra == "Kilogramos":
-                if medida_uso != "Kilogramos" and medida_uso != "Gramos":
-                    raise ValidationError("El producto comprado tiene unidad de medida 'Kilogramos', por lo que sólo puede seleccionar 'Kilogramos' o 'Gramos' como medida de uso.")  
-            elif medida_compra == "Litros":
-                if medida_uso != "Litros" and medida_uso != "Mililitros":
-                    raise ValidationError("El producto comprado tiene unidad de medida 'Litros', por lo que sólo puede seleccionar 'Litros' o 'Mililitros' como medida de uso.")  
-            elif medida_compra == "Gramos":
-                if medida_uso != "Gramos" and medida_uso != "Kilogramos":
-                    raise ValidationError("El producto comprado tiene unidad de medida 'Gramos', por lo que sólo puede seleccionar 'Gramos' o 'Kilogramos' como medida de uso.")  
-            elif medida_compra == "Mililitros":
-                if medida_uso != "Mililitros" and medida_uso != "Litros":
-                    raise ValidationError("El producto comprado tiene unidad de medida 'Mililitros', por lo que sólo puede seleccionar 'Mililitros' o 'Litros' como medida de uso.")  
-            elif medida_compra == "Libras":
-                if medida_uso != "Libras" and medida_uso != "Onzas":
-                    raise ValidationError("El producto comprado tiene unidad de medida 'Libras', por lo que sólo puede seleccionar 'Libras' u 'Onzas' como medida de uso.")  
-            elif medida_compra == "Onzas":
-                raise ValidationError("El producto comprado tiene unidad de medida 'Onzas', por lo que sólo puede seleccionar 'Onzas' como medida de uso.")  
-
-        super().clean()
-
-    def subtotal(self):
-
-        calculo = calculadora_unitario(medida_compra=self.Producto.UnidadMedida,medida_uso=self.MedidaUso,costo=(self.Producto.PrecioCosto / self.Producto.Cantidad),cantidad=self.Cantidad)
-        # print(f' costo mililitro: {(self.Producto.PrecioCosto / self.Producto.Cantidad)}')
-        # print(f' cantidad : {self.Producto.Cantidad}')
-
-        return calculo
-     
-    def save(self, *args, **kwargs):
-        # self.costo_unitario = self.producto.COSTO_UNITARIO
-        # self.medida_uso = self.producto.UNIDAD_MEDIDA_USO
-        # self.subtotal = self.producto.PRECIO_VENTA * self.cantidad
-        super().save(*args, **kwargs)
-#
-# -----------------------------------------------------------------------------
-# Metodos para acceder a los valores de forma dinamica
-# 
-class productoOrden(models.Model):
-    Orden  = models.ForeignKey(orden, on_delete=models.CASCADE)
-    Producto = models.ForeignKey(receta, on_delete=models.CASCADE)
-    Cantidad = models.DecimalField(max_digits=20, decimal_places=2, default=1, blank=False, null=False)
-    MedidaUso = models.CharField(max_length=20,choices=UnidadDeMedida,default='Unidades',blank=False,null=False)  
-    CostoUnitario = models.DecimalField(max_digits=20, decimal_places=2,blank=True,null=True)
-    UltimaModificacion = models.DateTimeField(auto_now_add=True,blank=True,null=True)
-    Usuario = models.CharField(max_length=120, null=True, blank=True)   
-
-    def subtotal(self,obj):
-        total = 0
-        return total
 # -----------------------------------------------------------------------------
 # Metodos para acceder a los valores de forma dinamica
 #
@@ -292,27 +286,7 @@ class productoSubReceta(models.Model):
         if not calculo:
             calculo = 0
         return calculo  
-# 
-# -----------------------------------------------------------------------------
-# Metodos para acceder a los valores de forma dinamica
-#
-class gastosAdicionalesReceta(models.Model):
-    Receta = models.ForeignKey(receta, on_delete=models.CASCADE)
-    Adicional  = models.ForeignKey(gastosAdicionales, on_delete=models.CASCADE)
-    Importe = models.DecimalField(max_digits=20, decimal_places=2, default=0, blank=False, null=False)
-    Usuario = models.CharField(max_length=120, null=True, blank=True)   
 
-    class Meta:
-        verbose_name = 'gasto'
-        verbose_name_plural ='Adicionales incluidos en la tratamiento' 
-
-    def __str__(self):
-        return str(self.Receta.Nombre)
-    
-    def clean(self):
-        if self.Importe <= 0:
-            raise ValidationError("El importe del gasto adicional no puede ser inferior o igual a $ 0.")
-        super().clean()
 # -----------------------------------------------------------------------------
 # Metodos para acceder a los valores de forma dinamica
 #
@@ -338,4 +312,4 @@ class subRecetaReceta(models.Model):
         total = self.SubReceta.costo_porcion() * self.Cantidad
         return total
 
-
+'''
