@@ -57,7 +57,7 @@ class ordenAdmin(admin.ModelAdmin):
 
     list_display = ('orden','estado', 'Cliente','Fecha_de_la_sesion','Costo', 'precio_final', 'ganancia',)
     list_display_links = ('orden',)
-    readonly_fields = ('Costo',)
+    readonly_fields = ('Costo', 'detalle_final')
     list_filter = ('Cliente','FechaOrden',)
     exclude = ('Usuario','Estado','TotalOrden')
     list_per_page = 25
@@ -66,8 +66,26 @@ class ordenAdmin(admin.ModelAdmin):
  
     inlines = [
         productoOrdenInline,
-        #IngredienteRecetaInline,
     ]
+
+    def get_inline_instances(self, request, obj=None):
+        if not obj:
+            return [productoOrdenInline(self.model, self.admin_site)]
+        
+        elif obj.Estado == "Pendiente":
+            return [productoOrdenInline(self.model, self.admin_site)]
+        
+        return []
+    
+    def get_readonly_fields(self, request, obj=None):
+        if not obj:
+            return ['Costo', 'detalle_final']
+        
+        elif obj.Estado != "Pendiente":
+            return ['Cliente', 'FechaOrden', 'FechaEntrega', 'Comentarios', 'TotalOrden', 'costoFinal', 'detalle_final'] # Ajusta estos nombres según tus campos
+        
+        else:
+            return ['Costo', 'detalle_final']
 
     def Fecha_de_la_sesion(self, obj):
         return obj.FechaEntrega
@@ -76,7 +94,7 @@ class ordenAdmin(admin.ModelAdmin):
         return str(" ${:,.2f}".format(obj.total_costo()))
 
     def ganancia(self,obj):
-        return str(" ${:,.2f}".format(float(obj.costoFinal) - obj.total_costo()))
+        return str(" ${:,.2f}".format(float(obj.costoFinal) - float(obj.total_costo())))
     
     def precio_final(self, obj):
         return str(" ${:,.2f}".format(obj.costoFinal))

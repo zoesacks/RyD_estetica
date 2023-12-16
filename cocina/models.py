@@ -31,6 +31,7 @@ class orden(models.Model): # Comanda
     UltimaModificacion = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     Usuario = models.CharField(max_length=120, null=True, blank=True)   
     costoFinal = models.DecimalField(max_digits=20, decimal_places=2, default=0, blank=False, null=False)
+    detalle_final = models.TextField(default="No terminado")
         
     def __str__(self):
         return f'#{self.pk} | Cliente: {self.Cliente}'
@@ -53,9 +54,14 @@ class orden(models.Model): # Comanda
         super().save(*args, **kwargs)
 
     def total_costo(self):
-        detalles = productoOrden.objects.filter(Orden=self)
-        suma_detalles = sum(float(detalle.Cantidad) * float(detalle.Producto.precio_unitario()) for detalle in detalles)
-        valor = round(suma_detalles,2)
+        if self.Estado == "Entregado":
+            valor = self.TotalOrden
+        
+        else:
+            detalles = productoOrden.objects.filter(Orden=self)
+            suma_detalles = sum(float(detalle.Cantidad) * float(detalle.Producto.precio_unitario()) for detalle in detalles)
+            valor = round(suma_detalles,2)
+
         return valor
 
 # -----------------------------------------------------------------------------

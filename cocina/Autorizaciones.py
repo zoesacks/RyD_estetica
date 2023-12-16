@@ -1,4 +1,5 @@
 from django.contrib import admin, messages
+from .models import orden, productoOrden, receta, productoReceta, gastosAdicionalesReceta
 
 @admin.action(description="Confirmar sesion")
 def confirmar_orden(modeladmin, request, queryset): 
@@ -29,7 +30,20 @@ def terminar_orden(modeladmin, request, queryset):
     
     orden = queryset[0]
 
+
+
+    productos = productoOrden.objects.filter(Orden= orden)
     
+    texto = "-"
+    
+
+    for prod in productos:
+        productoss = productoReceta.objects.filter(Receta = prod.Producto)
+        for produc in productoss:
+            texto += f"{produc.Producto.Nombre} - Cantidad: {produc.Cantidad}\n"
+
+    
+    orden.detalle_final = texto
     orden.Estado = "Entregado"
     orden.save()
     messages.success(request, "Sesion terminada correctamente.")
