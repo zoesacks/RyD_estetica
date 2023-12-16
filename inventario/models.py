@@ -97,7 +97,6 @@ class movimientoInventarios(models.Model):
         verbose_name_plural ='Movimientos deposito' 
 
 class Compra(models.Model):
-    codigo = models.CharField(max_length=255, unique=True, default="1")
     fecha = models.DateField()
 
 

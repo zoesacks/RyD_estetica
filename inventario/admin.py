@@ -100,10 +100,23 @@ class DetalleCompraInline(admin.StackedInline):
 
 @admin.register(Compra)
 class CompraAdmin(admin.ModelAdmin):
-    list_display = ('codigo', 'fecha')
+    list_display = ( 'fecha', 'mostrar_detalles', 'Total')
     inlines = [
         DetalleCompraInline,
     ]
+
+    def mostrar_detalles(self, obj):
+        detalles_venta = obj.detallecompra_set.all()
+        detalles = ", ".join(
+            f"{detalle.producto.Nombre} x {detalle.cantidad}"
+            for detalle in detalles_venta
+        )
+        return detalles
+
+    def Total(self, obj):
+        detalles_venta = obj.detallecompra_set.all()  # Obtén todos los detalles de la venta
+        costo_total = sum(detalle.cantidad * detalle.costo_unidad for detalle in detalles_venta)
+        return str("$ {:,.2f}".format(costo_total))
 
 
 class DetalleVentaInline(admin.StackedInline):
@@ -128,7 +141,7 @@ class VentaAdmin(admin.ModelAdmin):
     def Total(self, obj):
         detalles_venta = obj.detalleventa_set.all()  # Obtén todos los detalles de la venta
         costo_total = sum(detalle.cantidad * detalle.costo_unidad for detalle in detalles_venta)
-        return costo_total
+        return str("$ {:,.2f}".format(costo_total))
 
 
 # -----------------------------------------------------------------------------
