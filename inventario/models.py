@@ -110,7 +110,7 @@ class DetalleCompra(models.Model):
     def clean(self):
         if self.precio_venta == 0:
             self.precio_venta = self.costo_unidad
-            
+
         self.producto.PrecioCosto = self.costo_unidad
         self.producto.precio_final = self.precio_venta
         self.producto.save()
@@ -128,7 +128,7 @@ class DetalleVenta(models.Model):
     costo_unidad = models.IntegerField(default=0)
 
     def clean(self):
-        if self.costo_unidad != 0:
+        if self.costo_unidad == 0:
             self.costo_unidad = self.producto.precio_final
         super().clean()
 
