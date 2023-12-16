@@ -105,9 +105,14 @@ class DetalleCompra(models.Model):
     producto = models.ForeignKey(producto, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()
     costo_unidad = models.IntegerField(default=0)
+    precio_venta = models.IntegerField(default=0)
 
     def clean(self):
+        if self.precio_venta == 0:
+            self.precio_venta = self.costo_unidad
+            
         self.producto.PrecioCosto = self.costo_unidad
+        self.producto.precio_final = self.precio_venta
         self.producto.save()
         super().clean()
 
@@ -123,7 +128,8 @@ class DetalleVenta(models.Model):
     costo_unidad = models.IntegerField(default=0)
 
     def clean(self):
-        self.costo_unidad = self.producto.precio_final
+        if self.costo_unidad != 0:
+            self.costo_unidad = self.producto.precio_final
         super().clean()
 
     
