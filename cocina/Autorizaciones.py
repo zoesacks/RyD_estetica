@@ -44,6 +44,7 @@ def terminar_orden(modeladmin, request, queryset):
 
     
     orden.detalle_final = texto
+    orden.TotalOrden = orden.total_costo()
     orden.Estado = "Entregado"
     orden.save()
     messages.success(request, "Sesion terminada correctamente.")
