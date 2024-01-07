@@ -135,8 +135,8 @@ class recetaAdmin(admin.ModelAdmin):
     list_display = ('Nombre','Categoria','costo_del_tratamiento',)
     list_display_links = ('Nombre',)
     list_filter = ('Nombre','Estado',)
-    readonly_fields = ('Comentarios', 'Categoria', 'costo_del_tratamiento',)
-    exclude = ('Usuario','Estado','GeneraComanda', 'MedidaUso','Rentabilidad', 'precio_final', 'ganancia', 'costo_final')
+    readonly_fields = ('Comentarios', )
+    exclude = ('Categoria', 'costo_del_tratamiento','Usuario','Estado','GeneraComanda', 'MedidaUso','Rentabilidad', 'precio_final', 'ganancia', 'costo_final')
     list_per_page = 25
     actions = [terminar_orden]
     
