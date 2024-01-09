@@ -15,6 +15,21 @@ from configuracion.listas import UnidadDeMedida
 from inventario.models import producto
 from configuracion.listas import Estado
 
+
+BIOTIPOPIEL = [
+    ("Piel eudérmica", "Piel eudérmica"),
+    ("Piel seborreica", "Piel seborreica"),
+    ("Piel alipídica", "Piel alipídica"),
+    ("Piel sensible", "Piel sensible"),
+    ("Piel sensibilizada", "Piel sensibilizada"),
+]
+
+BIOTIPOESTADO = [
+    ("Hidratado", "Hidratado"),
+    ("Deshidratado", "Deshidratado"),
+    ("Asfíctico", "Asfíctico"),
+]
+
 # -----------------------------------------------------------------------------
 # Modelado de datos
 # -----------------------------------------------------------------------------
@@ -68,8 +83,46 @@ class orden(models.Model): # Comanda
 # Metodos para acceder a los valores de forma dinamica
 
 
+class AreasCara(models.Model):
+    area = models.CharField(max_length=255)
+    def __str__(self): 
+        return self.area
+
+class Diagnostico(models.Model):
+    orden = models.ForeignKey(orden, on_delete=models.CASCADE)
+
+    motivo_de_consulta = models.TextField(blank=True, null=True)
+
+    biotipo_cutaneo = models.CharField(max_length=255, choices=BIOTIPOPIEL, blank=True, null=True)
+    biotipo_estado = models.CharField(max_length=255, choices=BIOTIPOESTADO, blank=True, null=True)
+    fototipo_cutaneo = models.PositiveIntegerField(blank=True, null=True)
+
+
+    macula_vascular = models.ManyToManyField(AreasCara, related_name='macula_vascular', blank=True) 
+    eritema = models.ManyToManyField(AreasCara, related_name='eritema', blank=True) 
+    telangiectasias = models.ManyToManyField(AreasCara, related_name='telangiectasias', blank=True) 
+    purpura = models.ManyToManyField(AreasCara, related_name='purpura', blank=True) 
+    petequias = models.ManyToManyField(AreasCara, related_name='petequias', blank=True) 
+    hematoma = models.ManyToManyField(AreasCara, related_name='hematoma', blank=True) 
+    macula_picmentaria = models.ManyToManyField(AreasCara, related_name='macula_picmentaria', blank=True) 
+    hiperpicmentada = models.ManyToManyField(AreasCara, related_name='hiperpicmentada', blank=True) 
+    hipopicmentaria = models.ManyToManyField(AreasCara, related_name='hipopicmentaria', blank=True) 
+    acromica = models.ManyToManyField(AreasCara, related_name='acromica', blank=True) 
+    papula = models.ManyToManyField(AreasCara, related_name='papula', blank=True) 
+    placa = models.ManyToManyField(AreasCara, related_name='placa', blank=True) 
+    tuberculo = models.ManyToManyField(AreasCara, related_name='tuberculo', blank=True) 
+    nodulo = models.ManyToManyField(AreasCara, related_name='nodulo', blank=True) 
+    comedon_abierto = models.ManyToManyField(AreasCara, related_name='comedon_abierto', blank=True) 
+    comedon_cerrado = models.ManyToManyField(AreasCara, related_name='comedon_cerrado', blank=True) 
+    pustula = models.ManyToManyField(AreasCara, related_name='pustula', blank=True) 
+    quiste_de_millium = models.ManyToManyField(AreasCara, related_name='quiste_de_millium', blank=True) 
+    cicatrices = models.ManyToManyField(AreasCara, related_name='cicatrices', blank=True)
+
+
+
+
 class receta(models.Model):
-    Nombre=models.CharField(max_length=150,default="Nombre",blank=False,null=False,unique=True)
+    Nombre=models.CharField(max_length=150,blank=False,null=False,unique=True)
     Categoria = models.ForeignKey(categoria,on_delete=models.DO_NOTHING,null=True, blank=True)
     Rentabilidad = models.DecimalField(max_digits=20, decimal_places=2, default=0, blank=False, null=False)
     Comentarios=models.TextField(null=True,blank=True) 

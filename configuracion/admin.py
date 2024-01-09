@@ -12,13 +12,37 @@ from configuracion.models import medioDeCompra,medioDePago,rol,usuarioCustom
 # Modelado de vistas del administrador
 # -----------------------------------------------------------------------------
 # Importacion de modelos
-from .models import cliente,proveedor,deposito,miEmpresa,gastosAdicionales
+from .models import cliente,proveedor,deposito,miEmpresa,gastosAdicionales, DatosClinicos, HabitosDiarios
 from .datosEjemplo import CrearDataEjemplo
 # Nombre del sitio 
 # -----------------------------------------------------------------------------
 admin.site.site_header = "ADEMA"
 admin.site.site_title = "ADEMA"
 
+class SesionInline(admin.StackedInline):
+    from cocina.models import orden
+    model = orden
+    extra = 0
+    readonly_fields = ['Cliente', 'FechaOrden', 'FechaEntrega', 'Comentarios', 'TotalOrden', 'costoFinal', 'detalle_final'] # Ajusta estos nombres según tus campos
+    exclude = ['Usuario','Estado','TotalOrden']
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        queryset = queryset.filter(Estado="Entregado")
+
+        return queryset
+
+class DatosClinicosOrdenInline(admin.StackedInline):
+    model = DatosClinicos
+    max_num = 1
+
+
+class HabitosDiariosOrdenInline(admin.StackedInline):
+    model = HabitosDiarios
+    max_num = 1
+
+
+    
 
 # Configuraciones de vistas
 # -----------------------------------------------------------------------------
@@ -35,9 +59,12 @@ class miEmpresaAdmin(admin.ModelAdmin):
 # 
 @admin.register(cliente)
 class clienteAdmin(ImportExportModelAdmin):
-    list_display = ('NumeroCliente','NombreApellido','Direccion','Email','Telefono',)
-    list_filter = ('NumeroCliente','NombreApellido','Email','Telefono',)
-    search_fields = ('NumeroCliente','NombreApellido','Email','Direccion',)
+    list_display = ('NumeroCliente','NombreApellido',)
+    list_filter = ('NumeroCliente','NombreApellido',)
+    search_fields = ('NumeroCliente','NombreApellido',)
+    inlines = [DatosClinicosOrdenInline,
+               HabitosDiariosOrdenInline,
+               SesionInline,]
 
 
 # -----------------------------------------------------------------------------

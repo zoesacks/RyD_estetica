@@ -8,7 +8,7 @@
 # Importacion de modelos
 from django.contrib import admin
 import pytz
-from .models import orden, productoOrden, receta,productoReceta, gastosAdicionalesReceta
+from .models import *
 from configuracion.models import miEmpresa
 from .Reporte import generar_presupuesto
 from .Autorizaciones import confirmar_orden,terminar_orden
@@ -26,8 +26,11 @@ class productoOrdenInline(admin.StackedInline):
 class productoRecetaInline(admin.StackedInline):
     model = productoReceta
     extra = 1
-    fields = ('Producto', 'Cantidad',)
-    autocomplete_fields = ('Producto',)
+
+
+class DiagnosticoOrdenInline(admin.StackedInline):
+    model = Diagnostico
+    max_num = 1
 
 '''
 class productoSubRecetaInline(admin.TabularInline):
@@ -66,16 +69,17 @@ class ordenAdmin(admin.ModelAdmin):
  
     inlines = [
         productoOrdenInline,
+        DiagnosticoOrdenInline,
     ]
 
     def get_inline_instances(self, request, obj=None):
         if not obj:
-            return [productoOrdenInline(self.model, self.admin_site)]
+            return [productoOrdenInline(self.model, self.admin_site), DiagnosticoOrdenInline(self.model, self.admin_site)]
         
         elif obj.Estado == "Pendiente":
-            return [productoOrdenInline(self.model, self.admin_site)]
+            return [productoOrdenInline(self.model, self.admin_site), DiagnosticoOrdenInline(self.model, self.admin_site)]
         
-        return []
+        return [ DiagnosticoOrdenInline(self.model, self.admin_site)]
     
     def get_readonly_fields(self, request, obj=None):
         if not obj:
@@ -125,6 +129,9 @@ class ordenAdmin(admin.ModelAdmin):
             r#eturn queryset.exclude(Estado='Entregado')
 
 
+@admin.register(AreasCara)
+class AreasCaraAdmin(admin.ModelAdmin):
+    list_display = ('area',)
 
 # -----------------------------------------------------------------------------
 #   Administradores de vistas
