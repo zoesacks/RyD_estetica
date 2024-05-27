@@ -30,11 +30,11 @@ def terminar_orden(modeladmin, request, queryset):
     
     orden = queryset[0]
 
-
-
     productos = productoOrden.objects.filter(Orden= orden)
     
     texto = "-"
+
+    diagnostico = orden.diagnostico_set.first().concatenar_campos() if orden.diagnostico_set.first() is not None else '-'
     
 
     for prod in productos:
@@ -44,6 +44,7 @@ def terminar_orden(modeladmin, request, queryset):
 
     
     orden.detalle_final = texto
+    orden.diagnostico_final = diagnostico
     orden.TotalOrden = orden.total_costo()
     orden.Estado = "Entregado"
     orden.save()

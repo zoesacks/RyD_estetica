@@ -47,6 +47,7 @@ class orden(models.Model): # Comanda
     Usuario = models.CharField(max_length=120, null=True, blank=True)   
     costoFinal = models.DecimalField(max_digits=20, decimal_places=2, default=0, blank=False, null=False)
     detalle_final = models.TextField(default="No terminado")
+    diagnostico_final = models.TextField(default="No terminado")
         
     def __str__(self):
         return f'#{self.pk} | Cliente: {self.Cliente}'
@@ -117,6 +118,51 @@ class Diagnostico(models.Model):
     pustula = models.ManyToManyField(AreasCara, related_name='pustula', blank=True) 
     quiste_de_millium = models.ManyToManyField(AreasCara, related_name='quiste_de_millium', blank=True) 
     cicatrices = models.ManyToManyField(AreasCara, related_name='cicatrices', blank=True)
+
+
+    def concatenar_campos(self):
+        campos = [
+            ('Motivo de consulta', self.motivo_de_consulta),
+            ('Biotipo cutáneo', self.biotipo_cutaneo),
+            ('Biotipo estado', self.biotipo_estado),
+            ('Fototipo cutáneo', self.fototipo_cutaneo)
+        ]
+        
+        # ManyToMany fields should be handled separately
+        many_to_many_fields = [
+            ('Mácula vascular', self.macula_vascular),
+            ('Eritema', self.eritema),
+            ('Telangiectasias', self.telangiectasias),
+            ('Púrpura', self.purpura),
+            ('Petequias', self.petequias),
+            ('Hematoma', self.hematoma),
+            ('Mácula pigmentaria', self.macula_picmentaria),
+            ('Hiperpigmentada', self.hiperpicmentada),
+            ('Hipopigmentaria', self.hipopicmentaria),
+            ('Acromica', self.acromica),
+            ('Pápula', self.papula),
+            ('Placa', self.placa),
+            ('Túberculo', self.tuberculo),
+            ('Nódulo', self.nodulo),
+            ('Comedón abierto', self.comedon_abierto),
+            ('Comedón cerrado', self.comedon_cerrado),
+            ('Pústula', self.pustula),
+            ('Quiste de millium', self.quiste_de_millium),
+            ('Cicatrices', self.cicatrices)
+        ]
+        
+        result = []
+        for nombre, valor in campos:
+            if valor:
+                result.append(f"{nombre}: {valor}")
+        
+        for nombre, campo in many_to_many_fields:
+            valores = campo.all()
+            if valores.exists():
+                nombres_areas = ', '.join([str(area) for area in valores])
+                result.append(f"{nombre}: {nombres_areas}")
+
+        return '\n'.join(result)
 
 
 

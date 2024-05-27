@@ -23,7 +23,7 @@ class SesionInline(admin.StackedInline):
     from cocina.models import orden
     model = orden
     extra = 0
-    readonly_fields = ['Cliente', 'FechaOrden', 'FechaEntrega', 'Comentarios', 'TotalOrden', 'costoFinal', 'detalle_final'] # Ajusta estos nombres según tus campos
+    readonly_fields = ['Cliente', 'FechaOrden', 'FechaEntrega', 'Comentarios', 'TotalOrden', 'costoFinal', 'detalle_final', 'diagnostico_final'] # Ajusta estos nombres según tus campos
     exclude = ['Usuario','Estado','TotalOrden']
 
     def get_queryset(self, request):

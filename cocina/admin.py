@@ -79,17 +79,17 @@ class ordenAdmin(admin.ModelAdmin):
         elif obj.Estado == "Pendiente":
             return [productoOrdenInline(self.model, self.admin_site), DiagnosticoOrdenInline(self.model, self.admin_site)]
         
-        return [ DiagnosticoOrdenInline(self.model, self.admin_site)]
+        return []
     
     def get_readonly_fields(self, request, obj=None):
         if not obj:
             return ['Costo', 'detalle_final']
         
         elif obj.Estado != "Pendiente":
-            return ['Cliente', 'FechaOrden', 'FechaEntrega', 'Comentarios', 'TotalOrden', 'costoFinal', 'detalle_final'] # Ajusta estos nombres según tus campos
+            return ['Cliente', 'FechaOrden', 'FechaEntrega', 'Comentarios', 'TotalOrden', 'costoFinal', 'detalle_final', 'diagnostico_final'] # Ajusta estos nombres según tus campos
         
         else:
-            return ['Costo', 'detalle_final']
+            return ['Costo', 'detalle_final', 'diagnostico_final']
 
     def Fecha_de_la_sesion(self, obj):
         return obj.FechaEntrega
