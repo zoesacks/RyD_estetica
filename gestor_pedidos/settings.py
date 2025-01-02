@@ -20,6 +20,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    "64.23.236.132:8000",
+    "http://64.23.236.132:8000",
+]
+
 
 # Application definition
 
@@ -45,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
 ]
 
 ROOT_URLCONF = 'gestor_pedidos.urls'
@@ -67,7 +74,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'gestor_pedidos.wsgi.application'
 
-
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
