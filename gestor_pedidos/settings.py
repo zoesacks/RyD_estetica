@@ -23,8 +23,9 @@ ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
     "64.23.236.132:8000",
     "http://64.23.236.132:8000",
-]
+    'http://localhost:8000',
 
+]
 
 # Application definition
 
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'inventario',
     'configuracion',
     'cocina',
+    'home'
 ]
 
 MIDDLEWARE = [
@@ -119,10 +121,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
 
-STATIC_ROOT=os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
 
+# Si quieres que los archivos estáticos se recopilen en un directorio específico
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Este es un ejemplo, ajusta según tu estructura de directorios
+]
+
+# En producción, Django usará esta ruta para almacenar los archivos estáticos
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

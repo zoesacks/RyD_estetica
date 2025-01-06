@@ -1,0 +1,161 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R&D estetica facial</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">R&D estetica facial</h1>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#testimonios">Testimonios</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Tu belleza, nuestra pasión</h2>
+            <p>Descubre una experiencia única de belleza y bienestar</p>
+            <a href="#contacto" class="btn">Reserva tu cita</a>
+        </div>
+    </section>
+
+    <section id="servicios" class="servicios">
+        <div class="container">
+            <h2 class="section-title">Nuestros Servicios</h2>
+            <div class="carousel">
+                <div class="carousel-inner">
+                    <div class="servicio-card">
+                        <img src="{% static 'img/home/acne.jpg' %}" alt="Tratamiento de acné">
+                        <h3>Tratamiento de acné</h3>
+                        <p>"Dile adiós al acné y hola a una piel radiante con nuestro tratamiento efectivo. Confianza en cada paso."</p>
+                    </div>
+                    <div class="servicio-card">
+                        <img src="{% static 'img/home/antiAge.jpg' %}" alt="Tratamiento anti-age">
+                        <h3>Tratamiento anti-age</h3>
+                        <p>"¡Rejuvenece tu piel en tiempo récord con nuestro tratamiento anti-age! Resultados visibles, cuidados extraordinarios."</p>
+                    </div>
+                    <div class="servicio-card">
+                        <img src="{% static 'img/home/rosacea.jpg' %}" alt="Tratamiento de rosácea">
+                        <h3>Tratamiento de rosáceas</h3>
+                        <p>"Calma y equilibra tu piel con nuestro tratamiento especializado para rosácea. Suavidad y confianza en cada aplicación."</p>
+                    </div>
+                    <div class="servicio-card">
+                        <img src="{% static 'img/home/limpiezaFacial.jpg' %}" alt="Limpieza facial profunda">
+                        <h3>Limpieza Facial Profunda</h3>
+                        <p>"Renueva tu piel con nuestra limpieza facial profunda. Elimina impurezas y revela una piel más luminosa y saludable."</p>
+                    </div>
+                    <div class="servicio-card">
+                        <img src="{% static 'img/home/hidratacion.jpg' %}" alt="Tratamiento de hidratación">
+                        <h3>Tratamiento de Hidratación</h3>
+                        <p>"Devuelve la vida a tu piel con nuestro tratamiento hidratante intensivo. Recupera la suavidad y elasticidad natural."</p>
+                    </div>
+                    <div class="servicio-card">
+                        <img src="{% static 'img/home/manchas.jpg' %}" alt="Tratamiento de manchas">
+                        <h3>Tratamiento de manchas</h3>
+                        <p>"Uniformiza el tono de tu piel con nuestro tratamiento especializado para manchas."</p>
+                    </div>
+                    <div class="servicio-card">
+                        <img src="{% static 'img/home/epelling.jpg' %}" alt="Peeling facial">
+                        <h3>Peeling Facial</h3>
+                        <p>"Renueva tu piel con nuestro peeling facial. Elimina células muertas y estimula la regeneración para una piel más joven."</p>
+                    </div>
+                    <div class="servicio-card">
+                        <img src="{% static 'img/home/alopecia.jpg' %}" alt="Tratamiento de alopecia">
+                        <h3>Tratamiento de alopecia</h3>
+                        <p>"Estimula el crecimiento del cabello y fortalece tu cuero cabelludo con nuestro tratamiento especializado en alopecia."</p>
+                    </div>
+                    <div class="servicio-card">
+                        <img src="{% static 'img/home/anti-age.jpg' %}" alt="Masajes anti-age">
+                        <h3>Masajes anti-age</h3>
+                        <p>"Relaja tu cuerpo y combate los signos de la edad con nuestros masajes anti-age diseñados para una piel más firme."</p>
+                    </div>
+                    <div class="servicio-card">
+                        <img src="{% static 'img/home/linfatico.jpg' %}" alt="Drenaje linfático">
+                        <h3>Drenaje linfático</h3>
+                        <p>"Elimina toxinas y mejora la circulación con nuestro efectivo tratamiento de drenaje linfático."</p>
+                    </div>
+                    <div class="servicio-card">
+                        <img src="{% static 'img/home/altaFrecuencia.jpg' %}" alt="Tratamiento de alta frecuencia">
+                        <h3>Alta frecuencia</h3>
+                        <p>"Revitaliza tu piel y combate las bacterias con nuestro tratamiento de alta frecuencia, ideal para pieles sensibles."</p>
+                    </div>
+                    <div class="servicio-card">
+                        <img src="{% static 'img/home/fototerapia.jpg' %}" alt="Tratamiento de fototerapia">
+                        <h3>Fototerapia</h3>
+                        <p>"Repara y rejuvenece tu piel con la tecnología de luz LED. Una solución no invasiva para múltiples problemas dérmicos."</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <section id="testimonios" class="testimonios">
+        <div class="container">
+            <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+            <div class="testimonios-grid">
+                <div class="testimonio-card">
+                    <div class="cliente-info">
+                        <img src="{% static 'img/home/messi.webp' %}" alt="Cliente 1" class="cliente-foto">
+                        <h3>messi</h3>
+                        <div class="estrellas">★★★★★</div>
+                    </div>
+                    <p>"Nunca pensé que me animaría a hacerme un tratamiento facial, pero los resultados hablan por sí solos. Mi piel está más limpia y fresca, y me siento mucho más seguro. Excelente atención, ¡lo recomiendo!" 💪</p>
+                </div>
+                <div class="testimonio-card">
+                    <div class="cliente-info">
+                        <img src="{% static 'img/home/shakira.jpg' %}" alt="Cliente 2" class="cliente-foto">
+                        <h3>shakira</h3>
+                        <div class="estrellas">★★★★★</div>
+                    </div>
+                    <p>"Me encantó la experiencia. Mi piel se siente más suave y con un brillo natural que no había visto en años. El ambiente es súper relajante, ¡definitivamente volveré!" 🌸</p>
+                </div>
+                <div class="testimonio-card">
+                    <div class="cliente-info">
+                        <img src="{% static 'img/home/CoCoco.webp' %}" alt="Cliente 3" class="cliente-foto">
+                        <h3>mama coco</h3>
+                        <div class="estrellas">★★★★★</div>
+                    </div>
+                    <p>"¡Estoy fascinada con los resultados! Desde que comencé mis sesiones en esta estética facial, mi piel nunca se había visto tan luminosa y saludable. Además, el trato es increíblemente cálido y profesional. ¡100% recomendado!"</p>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>R&D estetica facial</h3>
+                    <p>Cosmetologa/Cosmiatra(ROXANA CASTRO)</p>
+                    <p>Tu espacio de belleza y bienestar</p>
+                    <p>Dirección: VICTOR VERGANI 632 (PILAR CENTRO)</p>
+                    <p>Whatsapp: (54)11-34724947</p>
+                    <P>Instragram: RYD_esteticafacial</P>
+                    <p>Email: esteticafacial.ryd@gmail.com </p>
+                </div>
+                <div class="footer-horario">
+                    <h3>Dias de atencion </h3>
+                    <p>Lunes a Sabados</p>
+                    <p>Atención: Solo atendemos con turno previo!!!.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
