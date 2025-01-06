@@ -368,3 +368,42 @@ body {
         font-size: 1.8rem;
     }
 }
+/* hamburger.css */
+
+.menu-toggle {
+    display: none;
+}
+
+.menu-icon {
+    display: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 30px;
+    color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+    .menu-icon {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .nav {
+        display: none;
+    }
+
+    .menu-toggle:checked ~ .nav {
+        display: block;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: #f9f9f9;
+    }
+
+    .nav ul {
+        flex-direction: column;
+        padding: 0;
+    }
