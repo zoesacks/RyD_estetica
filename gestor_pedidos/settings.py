@@ -21,10 +21,10 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
-    "64.23.236.132:8000",
     "http://64.23.236.132:8000",
     'http://localhost:8000',
-
+    'https://localhost:8000',
+    'https://rydestetica.com.ar',
 ]
 
 # Application definition
