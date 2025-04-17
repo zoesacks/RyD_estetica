@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-dumrrl*0@3gqz5l)ov$w5k!e$fdaog8j$l2g=7_nb+3p_7%or*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -123,14 +123,25 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
+if DEBUG == True:
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+else:
+    STATIC_ROOT = '/root/aplicaciones/gestor_pedidos/static/'
 
-# Si quieres que los archivos estáticos se recopilen en un directorio específico
+
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
+
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Este es un ejemplo, ajusta según tu estructura de directorios
+    os.path.join(BASE_DIR, "staticfiles"),
 ]
 
-# En producción, Django usará esta ruta para almacenar los archivos estáticos
-STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_URL = '/media/'
+if DEBUG == True:
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+else:
+    MEDIA_ROOT = '/root/aplicaciones/gestor_pedidos/media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

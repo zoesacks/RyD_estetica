@@ -16,15 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from cocina.views import PedidoDetailView
-from home.views import home
+from home.views import home, servicios, sobre_nosotros
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'), 
+    path('servicios', servicios, name='servicios'), 
+    path('sobre_nosotros', sobre_nosotros, name='sobre_nosotros'), 
     path('pedido/<int:pedido_id>/', PedidoDetailView.as_view(), name='pedido-detalle'),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,351 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R&D Estetica Facial</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .cert-img {
+          margin-top: 10px;
+        }
+      
+        .cert-img img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 10px;
+          box-shadow: 0px 0px 10px #ccc;
+        }
+      
+        .hidden {
+          display: none;
+        }
+      
+        .certifications-list li {
+          cursor: pointer;
+          margin-bottom: 10px;
+          transition: color 0.3s;
+        }
+      
+        .certifications-list li:hover {
+          color: #a954a5;
+        }
+      </style>
+      
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="{% url 'home' %}"" class="logo">R&D Estetica Facial</a>
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="{% url 'home' %}" class="nav-link">Inicio</a></li>
+                    <li><a href="{% url 'servicios' %}" class="nav-link">Servicios</a></li>
+                    <li><a href="#" class="nav-link">Nosotros</a></li>
+                    <li><a href="https://wa.me/5491134724947?text=Hola%2C%20quiero%20agendar%20una%20cita" target="_blank" class="btn btn-primary">Agendar Cita</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="about-hero-content">
+                <h1>Sobre Nosotros</h1>
+                <p>Conoce nuestra historia, valores y compromiso con tu belleza natural</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="our-story">
+        <div class="container">
+            <div class="story-content">
+                <div class="story-image">
+                    <div class="circle-decoration circle-1"></div>
+                    <div class="circle-decoration circle-2"></div>
+                    <img src="{% static 'img/Roxana.jpg' %}" alt="Historia de R&D Estetica Facial">
+                </div>
+                <div class="story-text">
+                    <h2>Bienvenidos a R&D Estética</h2>
+
+                    <p>Es un honor compartir con ustedes nuestra pasión por el cuidado facial. Nuestra fundadora, <strong>Roxana Castro</strong>, creó este espacio con el deseo de ofrecer una experiencia cálida, personalizada y consciente.</p>
+
+                    <p>En nuestro gabinete, nos enfocamos en brindarte un momento único, donde comprendés la importancia de cuidar tu piel desde el conocimiento y la dedicación.</p>
+
+                    <p>Cada tratamiento se adapta a tu tipo de piel, tus hábitos y tus necesidades reales. Utilizamos productos de alta calidad y te acompañamos también en casa, recomendándote lo mejor para tu rutina diaria.</p>
+
+                    <p><strong>Viví con nosotras esta hermosa experiencia. Tu piel lo merece.</strong></p>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Values Section -->
+    <section class="our-values">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nuestros Valores</h2>
+                <p>Principios que guían nuestro trabajo diario</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Pasión</h3>
+                    <p>Amamos lo que hacemos y nos esforzamos por transmitir esa pasión en cada tratamiento.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Excelencia</h3>
+                    <p>Buscamos la perfección en cada detalle, desde la atención al cliente hasta los resultados finales.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h3>Personalización</h3>
+                    <p>Creemos que cada persona es única y adaptamos nuestros tratamientos a las necesidades específicas de cada piel.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Sostenibilidad</h3>
+                    <p>Nos comprometemos con el medio ambiente utilizando productos respetuosos y prácticas sostenibles.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Formación Continua</h3>
+                    <p>Invertimos en la formación constante de nuestro equipo para ofrecer siempre las técnicas más avanzadas.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Confianza</h3>
+                    <p>Construimos relaciones duraderas basadas en la honestidad y los resultados reales.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="certifications">
+        <div class="container">
+          <div class="section-header">
+            <h2>Certificaciones y Formación</h2>
+            <p>Nuestro compromiso con la excelencia y la formación continua</p>
+          </div>
+          <div class="certifications-content">
+            <div class="certifications-text">
+              <p>En R&D Estetica Facial, la formación continua es uno de nuestros pilares fundamentales...</p>
+              <p>Entre nuestras certificaciones y colaboraciones destacan:</p>
+              <ul class="certifications-list">
+                <li onclick="toggleCert('cosmetologia')"><i class="fas fa-certificate"></i> Certificación en Cosmetología - Idraet ProInstitute (2023)</li>
+                <div id="cert-cosmetologia" class="cert-img hidden">
+                  <img src="{% static 'img/certificado_cosmetologia.jpg' %}" alt="Certificado Cosmetología">
+                </div>
+      
+                <li onclick="toggleCert('cosmeatria')"><i class="fas fa-certificate"></i> Certificación en Cosmeatria - Idraet ProInstitute (2024)</li>
+                <div id="cert-cosmeatria" class="cert-img hidden">
+                  <img src="{% static 'img/certificado_cosmeatria.jpg' %}" alt="Certificado Cosmeatría">
+                </div>
+      
+                <li onclick="toggleCert('peeling')"><i class="fas fa-certificate"></i> Peeling Combinado de Verano - Idraet ProInstitute (2023)</li>
+                <div id="cert-peeling" class="cert-img hidden">
+                  <img src="{% static 'img/certificado_peeling.jpg' %}" alt="Certificado Peeling">
+                </div>
+      
+                <li onclick="toggleCert('parpados')"><i class="fas fa-certificate"></i> Diagnóstico Diferencial de Párpados - Idraet ProInstitute (2023)</li>
+                <div id="cert-parpados" class="cert-img hidden">
+                  <img src="{% static 'img/certificado_diagnostico_parpados.jpg' %}" alt="Certificado Párpados">
+                </div>
+      
+                <li onclick="toggleCert('extracciones')"><i class="fas fa-certificate"></i> Extracciones - Idraet ProInstitute (2023)</li>
+                <div id="cert-extracciones" class="cert-img hidden">
+                  <img src="{% static 'img/certificado_extracciones.jpg' %}" alt="Certificado Extracciones">
+                </div>
+      
+                <li onclick="toggleCert('pieljoven')"><i class="fas fa-certificate"></i> Piel Joven: Cuidados y Prevención - Idraet ProInstitute (2023)</li>
+                <div id="cert-pieljoven" class="cert-img hidden">
+                  <img src="{% static 'img/certificado_piel_joven.jpg' %}" alt="Certificado Piel Joven">
+                </div>
+      
+                <li onclick="toggleCert('bioseguridad')"><i class="fas fa-certificate"></i> Formación en Normas de Bioseguridad en Estética</li>
+                <div id="cert-bioseguridad" class="cert-img hidden">
+                  <img src="{% static 'img/certificado_bioseguridad.jpg' %}" alt="Certificado Bioseguridad">
+                </div>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+
+    <!-- Contact Section -->
+    <section id="contacto" class="contact-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Contáctanos</h2>
+                <p>Estamos aquí para responder tus preguntas y ayudarte a agendar tu próxima cita</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info-card">
+                    <div class="info-header">
+                        <h3>Información de Contacto</h3>
+                        <p>Utiliza cualquiera de estos medios para ponerte en contacto con nosotros</p>
+                    </div>
+                    <div class="info-details">
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="info-text">
+                                <h4>Dirección</h4>
+                                <p>Victor Vergani 632, Pilar, Buenos Aires</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="info-text">
+                                <h4>Teléfono</h4>
+                                <p>+54 9 11 3472-4947</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="info-text">
+                                <h4>Horario de Atención</h4>
+                                <p>Lunes a Viernes: 9:00 - 20:00</p>
+                                <p>Sábados: 10:00 - 18:00</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="social-contact">
+                        <h4>Síguenos en Redes Sociales</h4>
+                        <div class="social-icons">
+                            <a href="https://www.facebook.com/ryd.esteticafacial" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/ryd_esteticafacial/" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-card">
+                    <h3>Envíanos un Mensaje</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nombre</label>
+                            <input type="text" id="name" placeholder="Tu nombre">
+                        </div>
+                        <div class="form-group">
+                            <label for="apellido">Apellido</label>
+                            <input type="text" id="apellido" placeholder="Tu apellido">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mensaje</label>
+                            <textarea id="message" placeholder="¿En qué podemos ayudarte?"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="map-container">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3282.171031590033!2d-58.91270558476903!3d-34.45841608050571!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bc9ccfe3fc4d2b%3A0xf25db3e343714798!2sVictor%20Vergani%20632%2C%20B1629ALF%20Gran%20Buenos%20Aires%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses-419!2sar!4v1713373708037!5m2!1ses-419!2sar" 
+              width="100%" 
+              height="450" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+          
+        
+        
+        
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>R&D Estetica Facial</h3>
+                    <p>Especialistas en tratamientos faciales personalizados para realzar tu belleza natural. Nuestro equipo de profesionales está comprometido con tu bienestar y satisfacción.</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/ryd_esteticafacial/"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/ryd_esteticafacial/"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contacto</h3>
+                    <ul class="footer-contact">
+                        <li>Victor Vergani 632, Pilar, Buenos Aires</li>
+                        <li>+54 9 11 3472-4947</li>
+                        <li>Lunes a Viernes: 9:00 - 20:00</li>
+                        <li>Sábados: 10:00 - 18:00</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> R&D Estetica Facial. Todos los derechos reservados.</p>
+                <div class="footer-legal">
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Términos y Condiciones</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scipts.js"></script>
+
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Evita que se envíe el formulario normalmente
+    
+            const nombre = document.getElementById('name').value.trim();
+            const apellido = document.getElementById('apellido').value.trim();
+            const mensaje = document.getElementById('message').value.trim();
+    
+            const numeroWhatsApp = "5491134724947"; // sin espacios ni signos
+    
+            const texto = `Hola, soy ${nombre} ${apellido}. ${mensaje}`;
+            const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(texto)}`;
+    
+            window.open(url, '_blank'); // Abre en una nueva pestaña
+        });
+        function toggleCert(id) {
+        const cert = document.getElementById('cert-' + id);
+        cert.classList.toggle('hidden');
+        }
+  </script>
+   
+</body>
+</html>

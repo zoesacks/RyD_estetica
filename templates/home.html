@@ -1,170 +1,333 @@
-{% load static %}
 
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R&D estetica facial</title>
+    <title>R&D Estetica Facial</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <header class="header">
+    <!-- Navbar -->
+    <nav class="navbar">
         <div class="container">
-            <h1 class="logo">R&D estetica facial</h1>
-            <!-- Agregamos el checkbox y la etiqueta para el menú hamburguesa -->
-            <input type="checkbox" id="menu-toggle" class="menu-toggle">
-            <label for="menu-toggle" class="menu-icon">&#9776;</label>
-            <nav class="nav">
-                <ul>
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#servicios">Servicios</a></li>
-                    <li><a href="#testimonios">Testimonios</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
-                    <li>
-                        <a href="/admin" class="admin-btn" aria-label="Administración">
-                            <i class="fas fa-cog"></i>
-                        </a>
-                    </li>
+            <div class="navbar-content">
+                <a href="#" class="logo">R&D Estetica Facial</a>
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#inicio" class="nav-link">Inicio</a></li>
+                    <li><a href="{% url 'servicios' %}" class="nav-link">Servicios</a></li>
+                    <li><a href="{% url 'sobre_nosotros' %}" class="nav-link">Nosotros</a></li>
+                    
+                    <li><a href="#testimonios" class="nav-link">Testimonios</a></li>
+                    <li><a href="#contacto" class="btn btn-primary">Agendar Cita</a></li>
                 </ul>
-            </nav>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h2>Tu belleza, nuestra pasión</h2>
-            <p>Descubre una experiencia única de belleza y bienestar</p>
-            <a href="#contacto" class="btn">Reserva tu cita</a>
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Descubre tu belleza natural</h1>
+                    <p>En R&D Estetica Facial, nos especializamos en tratamientos faciales personalizados 
+                        que realzan tu belleza natural. Nuestros expertos utilizan las técnicas 
+                        más avanzadas para brindarte resultados excepcionales.</p>
+                    <div class="hero-buttons">
+                        <a href="https://wa.me/5491134724947?text=Hola%2C%20quiero%20agendar%20una%20cita" target="_blank" class="btn btn-primary">Agendar Cita</a>
+                        <a href="#servicios" class="btn btn-outline">Nuestros Servicios</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="circle-decoration circle-1"></div>
+                    <div class="circle-decoration circle-2"></div>
+                    <img src="{% static 'img/logo.png' %}" alt="Tratamiento facial">
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="servicios" class="servicios">
+    <!-- Services Section -->
+    <section id="servicios" class="services">
         <div class="container">
-            <h2 class="section-title">Nuestros Servicios</h2>
-            <div class="carousel">
-                <div class="carousel-inner">
-                    <div class="servicio-card">
-                        <img src="{% static 'img/home/acne.jpg' %}" alt="Tratamiento de acné">
-                        <h3>Tratamiento de acné</h3>
-                        <p>"Dile adiós al acné y hola a una piel radiante con nuestro tratamiento efectivo. Confianza en cada paso."</p>
+            <div class="section-header">
+                <h2>Nuestros Servicios</h2>
+                <p>Ofrecemos una amplia gama de tratamientos faciales diseñados para satisfacer 
+                    las necesidades específicas de tu piel.</p>
+            </div>
+    
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-droplet"></i>
                     </div>
-                    <div class="servicio-card">
-                        <img src="{% static 'img/home/antiAge.jpg' %}" alt="Tratamiento anti-age">
-                        <h3>Tratamiento anti-age</h3>
-                        <p>"¡Rejuvenece tu piel en tiempo récord con nuestro tratamiento anti-age! Resultados visibles, cuidados extraordinarios."</p>
-                    </div>
-                    <div class="servicio-card">
-                        <img src="{% static 'img/home/rosacea.jpg' %}" alt="Tratamiento de rosácea">
-                        <h3>Tratamiento de rosáceas</h3>
-                        <p>"Calma y equilibra tu piel con nuestro tratamiento especializado para rosácea. Suavidad y confianza en cada aplicación."</p>
-                    </div>
-                    <div class="servicio-card">
-                        <img src="{% static 'img/home/limpiezaFacial.jpg' %}" alt="Limpieza facial profunda">
-                        <h3>Limpieza Facial Profunda</h3>
-                        <p>"Renueva tu piel con nuestra limpieza facial profunda. Elimina impurezas y revela una piel más luminosa y saludable."</p>
-                    </div>
-                    <div class="servicio-card">
-                        <img src="{% static 'img/home/hidratacion.jpg' %}" alt="Tratamiento de hidratación">
-                        <h3>Tratamiento de Hidratación</h3>
-                        <p>"Devuelve la vida a tu piel con nuestro tratamiento hidratante intensivo. Recupera la suavidad y elasticidad natural."</p>
-                    </div>
-                    <div class="servicio-card">
-                        <img src="{% static 'img/home/manchas.jpg' %}" alt="Tratamiento de manchas">
-                        <h3>Tratamiento de manchas</h3>
-                        <p>"Uniformiza el tono de tu piel con nuestro tratamiento especializado para manchas."</p>
-                    </div>
-                    <div class="servicio-card">
-                        <img src="{% static 'img/home/epelling.jpg' %}" alt="Peeling facial">
-                        <h3>Peeling Facial</h3>
-                        <p>"Renueva tu piel con nuestro peeling facial. Elimina células muertas y estimula la regeneración para una piel más joven."</p>
-                    </div>
-                    <div class="servicio-card">
-                        <img src="{% static 'img/home/alopecia.jpg' %}" alt="Tratamiento de alopecia">
-                        <h3>Tratamiento de alopecia</h3>
-                        <p>"Estimula el crecimiento del cabello y fortalece tu cuero cabelludo con nuestro tratamiento especializado en alopecia."</p>
-                    </div>
-                    <div class="servicio-card">
-                        <img src="{% static 'img/home/anti-age.jpg' %}" alt="Masajes anti-age">
-                        <h3>Masajes anti-age</h3>
-                        <p>"Relaja tu cuerpo y combate los signos de la edad con nuestros masajes anti-age diseñados para una piel más firme."</p>
-                    </div>
-                    <div class="servicio-card">
-                        <img src="{% static 'img/home/linfatico.jpg' %}" alt="Drenaje linfático">
-                        <h3>Drenaje linfático</h3>
-                        <p>"Elimina toxinas y mejora la circulación con nuestro efectivo tratamiento de drenaje linfático."</p>
-                    </div>
-                    <div class="servicio-card">
-                        <img src="{% static 'img/home/altaFrecuencia.jpg' %}" alt="Tratamiento de alta frecuencia">
-                        <h3>Alta frecuencia</h3>
-                        <p>"Revitaliza tu piel y combate las bacterias con nuestro tratamiento de alta frecuencia, ideal para pieles sensibles."</p>
-                    </div>
-                    <div class="servicio-card">
-                        <img src="{% static 'img/home/fototerapia.jpg' %}" alt="Tratamiento de fototerapia">
-                        <h3>Fototerapia</h3>
-                        <p>"Repara y rejuvenece tu piel con la tecnología de luz LED. Una solución no invasiva para múltiples problemas dérmicos."</p>
-                    </div>
-                    
+                    <h3>Limpieza Facial Profunda</h3>
+                    <p>Elimina impurezas y células muertas para una piel radiante y renovada.</p>
                 </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <h3>Tratamiento anti-age</h3>
+                    <p>Técnicas avanzadas para reducir líneas de expresión y signos de envejecimiento.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Rosáceas</h3>
+                    <p>Tratamiento facial especializado que calma, fortalece y protege la piel con rosácea, reduciendo enrojecimiento, irritación y sensibilidad. Ideal para piel delicada.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Peeling</h3>
+                    <p>Peelings químicos que renuevan la piel, mejoran textura, tono y reducen manchas, acné y líneas finas.</p>
+                </div>
+            </div>
+    
+            <!-- Botón centrado con espacio -->
+            <div class="button-wrapper" style="text-align: center; margin-top: 40px;">
+                <a href="{% url 'servicios' %}" class="btn btn-primary">Ver más</a>
             </div>
         </div>
     </section>
     
 
-    <section id="testimonios" class="testimonios">
+    <!-- About Section -->
+    <section id="nosotros" class="about">
         <div class="container">
-            <h2 class="section-title">Lo que dicen nuestros clientes</h2>
-            <div class="testimonios-grid">
-                <div class="testimonio-card">
-                    <div class="cliente-info">
-                        <img src="{% static 'img/home/messi.webp' %}" alt="Cliente 1" class="cliente-foto">
-                        <h3>messi</h3>
-                        <div class="estrellas">★★★★★</div>
-                    </div>
-                    <p>"Nunca pensé que me animaría a hacerme un tratamiento facial, pero los resultados hablan por sí solos. Mi piel está más limpia y fresca, y me siento mucho más seguro. Excelente atención, ¡lo recomiendo!" 💪</p>
+            <div class="about-content">
+                <div class="about-image">
+                    <div class="circle-decoration circle-3"></div>
+                    <div class="circle-decoration circle-4"></div>
+                    <img src="{% static 'img/Roxana2.jpg' %}" alt="Nuestro equipo">
                 </div>
-                <div class="testimonio-card">
-                    <div class="cliente-info">
-                        <img src="{% static 'img/home/shakira.jpg' %}" alt="Cliente 2" class="cliente-foto">
-                        <h3>shakira</h3>
-                        <div class="estrellas">★★★★★</div>
-                    </div>
-                    <p>"Me encantó la experiencia. Mi piel se siente más suave y con un brillo natural que no había visto en años. El ambiente es súper relajante, ¡definitivamente volveré!" 🌸</p>
+                <div class="about-text">
+                    <h2>Sobre Nosotros</h2>
+                    <p>En R&D Estetica Facial, nos dedicamos a realzar la belleza natural de cada persona. 
+                        Nuestro equipo de profesionales altamente capacitados se especializa en 
+                        tratamientos faciales personalizados que se adaptan a las necesidades 
+                        específicas de tu piel.</p>
+                    <p>Utilizamos productos de la más alta calidad y técnicas innovadoras para 
+                        garantizar resultados excepcionales. Nuestro objetivo es que te sientas 
+                        hermosa y segura en tu propia piel.</p>
+                    
+                    <h3>¿Por qué elegirnos?</h3>
+                    <ul class="benefits-list">
+                        <li><i class="fas fa-check"></i> Profesionales certificados y en constante formación</li>
+                        <li><i class="fas fa-check"></i> Productos de alta calidad y tecnología avanzada</li>
+                        <li><i class="fas fa-check"></i> Atención personalizada según tus necesidades</li>
+                        <li><i class="fas fa-check"></i> Ambiente relajante y acogedor</li>
+                    </ul>
+                    
+                    <a href="{% url 'sobre_nosotros' %}" class="btn btn-primary">Conoce a Nuestro Equipo</a>
                 </div>
-                <div class="testimonio-card">
-                    <div class="cliente-info">
-                        <img src="{% static 'img/home/CoCoco.webp' %}" alt="Cliente 3" class="cliente-foto">
-                        <h3>mama coco</h3>
-                        <div class="estrellas">★★★★★</div>
-                    </div>
-                    <p>"¡Estoy fascinada con los resultados! Desde que comencé mis sesiones en esta estética facial, mi piel nunca se había visto tan luminosa y saludable. Además, el trato es increíblemente cálido y profesional. ¡100% recomendado!"</p>
-                </div>
-                
             </div>
         </div>
     </section>
 
-    <footer id="contacto" class="footer">
+    <!-- Testimonials Section -->
+    <section id="testimonios" class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>Lo que dicen nuestros clientes</h2>
+                <p>Descubre las experiencias de quienes ya han confiado en nosotros para el cuidado de su piel.</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Los tratamientos faciales de R&D Estetica Facial han transformado mi piel. El equipo es profesional y siempre me hacen sentir especial. ¡Totalmente recomendado!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">M</div>
+                        <div class="author-info">
+                            <h4>María Fernández</h4>
+                            <p>Cliente desde 20232</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Después de probar varios centros de estética, finalmente encontré R&D Estetica Facial. La diferencia es notable, tanto en la calidad de los tratamientos como en la atención personalizada."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">L</div>
+                        <div class="author-info">
+                            <h4>Laura Gómez</h4>
+                            <p>Cliente desde 2024</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Nunca pensé que un tratamiento facial pudiera hacer tanta diferencia. Mi piel luce más saludable y rejuvenecida. El equipo de R&D Estetica Facial es excepcional."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">C</div>
+                        <div class="author-info">
+                            <h4>Carlos Rodríguez</h4>
+                            <p>Cliente desde 2023</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Desde mi primera visita quedé encantada con la profesionalidad y calidez del equipo. Los resultados son visibles desde la primera sesión."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">A</div>
+                        <div class="author-info">
+                            <h4>Ana Martínez</h4>
+                            <p>Cliente desde 2023</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Contáctanos</h2>
+                <p>Estamos aquí para responder tus preguntas y ayudarte a agendar tu próxima cita.</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-form">
+                    <h3>Envíanos un mensaje</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nombre</label>
+                            <input type="text" id="name" placeholder="Tu nombre">
+                        </div>
+                        <div class="form-group">
+                            <label for="apellido">Apellido</label>
+                            <input type="text" id="apellido" placeholder="Tu apellido">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mensaje</label>
+                            <textarea id="message" placeholder="¿En qué podemos ayudarte?"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Enviar Mensaje</button>
+                    </form>
+                </div>
+                <div class="contact-info">
+                    <div class="info-card">
+                        <h3>Información de Contacto</h3>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Dirección</h4>
+                                <p>Victor Vergani 632, Pilar, Buenos Aires</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h4>Teléfono</h4>
+                                <p>+54 9 11 3472-4947</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>Horario de Atención</h4>
+                                <p>Lunes a Viernes: 9:00 - 20:00</p>
+                                <p>Sábados: 10:00 - 18:00</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <h3>Medios de Pago</h3>
+                        <div class="payment-methods">
+                            <div class="payment-method">Efectivo</div>
+                            <div class="payment-method">Transferencia</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-info">
-                    <h3>R&D estetica facial</h3>
-                    <p>Cosmetologa/Cosmiatra(ROXANA CASTRO)</p>
-                    <p>Tu espacio de belleza y bienestar</p>
-                    <p>Dirección: VICTOR VERGANI 632 (PILAR CENTRO)</p>
-                    <p>Whatsapp: (54)11-34724947</p>
-                    <P>Instragram: RYD_esteticafacial</P>
-                    <p>Email: esteticafacial.ryd@gmail.com </p>
+                <div class="footer-column">
+                    <h3>R&D Estetica Facial</h3>
+                    <p>Especialistas en tratamientos faciales personalizados para realzar tu belleza natural. Nuestro equipo de profesionales está comprometido con tu bienestar y satisfacción.</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/ryd_esteticafacial/"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/ryd_esteticafacial/"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
-                <div class="footer-horario">
-                    <h3>Dias de atencion </h3>
-                    <p>Lunes a Sabados</p>
-                    <p>Atención: Solo atendemos con turno previo!!!.</p>
+                <div class="footer-column">
+                    <h3>Contacto</h3>
+                    <ul class="footer-contact">
+                        <li>Victor Vergani 632, Pilar, Buenos Aires</li>
+                        <li>+54 9 11 3472-4947</li>
+                        <li>Lunes a Viernes: 9:00 - 20:00</li>
+                        <li>Sábados: 10:00 - 18:00</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> R&D Estetica Facial. Todos los derechos reservados.</p>
+                <div class="footer-legal">
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Términos y Condiciones</a>
                 </div>
             </div>
         </div>
     </footer>
+
+    <script src="script.js"></script>
+
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Evita que se envíe el formulario normalmente
+    
+            const nombre = document.getElementById('name').value.trim();
+            const apellido = document.getElementById('apellido').value.trim();
+            const mensaje = document.getElementById('message').value.trim();
+    
+            const numeroWhatsApp = "5491134724947"; // sin espacios ni signos
+    
+            const texto = `Hola, soy ${nombre} ${apellido}. ${mensaje}`;
+            const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(texto)}`;
+    
+            window.open(url, '_blank'); // Abre en una nueva pestaña
+        });
+    </script>
 </body>
 </html>

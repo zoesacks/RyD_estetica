@@ -1,0 +1,241 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R&D Estetica Facial</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="index.html" class="logo">R&D Estetica Facial</a>
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="{% url 'home' %}" class="nav-link">Inicio</a></li>
+                    <li><a href="#" class="nav-link">Servicios</a></li>
+                    <li><a href="{% url 'sobre_nosotros' %}" class="nav-link">Nosotros</a></li>
+                    <li><a href="https://wa.me/5491134724947?text=Hola%2C%20quiero%20agendar%20una%20cita" target="_blank" class="btn btn-primary">Agendar Cita</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Services Header -->
+    <section class="services-header">
+        <div class="container">
+            <h1>Nuestros Servicios</h1>
+            <p>Descubre nuestra amplia gama de tratamientos faciales diseñados para realzar tu belleza natural y cuidar tu piel.</p>
+            
+            <div class="services-filter">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="facial">Facial</button>
+                <button class="filter-btn" data-filter="corporal">Corporal</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services List -->
+    <section class="services-list">
+        <div class="container">
+            <div class="services-grid">
+                {% for servicio in servicios %}
+                <div class="service-item" data-category="{{ servicio.categoria }}">
+                    <div class="service-image">
+                        <img src="{{ servicio.imagen.url }}" alt="{{ servicio.titulo }}">
+                    </div>
+                    <div class="service-content">
+                        <h3>{{ servicio.titulo }}</h3>
+                        <div class="service-meta">
+                            <span><i class="fas fa-clock"></i> {{ servicio.duracion }}</span>
+                        </div>
+                        <p>{{ servicio.descripcion }}</p>
+                        <div class="service-benefits">
+                            <h4>Beneficios:</h4>
+                            <ul>
+                                {% for beneficio in servicio.obtener_beneficios %}
+                                    <li><i class="fas fa-check"></i> {{ beneficio }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <a href="https://wa.me/5491134724947?text=Hola%2C%20quiero%20agendar%20una%20cita%20para%20el%20tratamiento%20{{ servicio.titulo|urlencode }}." 
+                            class="btn btn-primary" target="_blank">
+                            Agendar Cita
+                            </a>
+
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section (NUEVA SECCIÓN) -->
+    <section class="technology-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Tecnología Avanzada</h2>
+                <p>Equipamiento de última generación para resultados excepcionales</p>
+            </div>
+            <div class="technology-content">
+                <div class="technology-text">
+                    <p>En R&D Estetica Facial, invertimos constantemente en la tecnología más avanzada del sector para ofrecer tratamientos faciales de vanguardia. Nuestro equipamiento de última generación nos permite diagnosticar con precisión el estado de tu piel y aplicar los tratamientos más efectivos para cada necesidad.</p>
+                    <p>Combinamos la experiencia de nuestros profesionales con la potencia de la tecnología para maximizar los resultados de cada tratamiento, siempre de forma segura y no invasiva.</p>
+                </div>
+                <div class="technology-grid">
+                    <div class="tech-item">
+                        <div class="tech-icon">
+                            <i class="fas fa-microscope"></i>
+                        </div>
+                        <div class="tech-info">
+                            <h3>Dermaplaning</h3>
+                            <p>Exfoliación suave que elimina células muertas y vello facial, dejando la piel más suave, luminosa y lista para absorber productos.</p>
+                        </div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <div class="tech-info">
+                            <h3>Electroporador</h3>
+                            <p>Técnica que permite la penetración profunda de activos en la piel mediante impulsos eléctricos, sin necesidad de agujas.</p>
+                        </div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="tech-info">
+                            <h3>Alta frecuencia</h3>
+                            <p>Tratamiento que oxigena la piel, elimina bacterias, estimula la circulación y favorece la cicatrización de imperfecciones faciales.</p>
+                        </div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="tech-info">
+                            <h3>Mascara Led</h3>
+                            <p>Tratamiento con luz que estimula la regeneración celular, mejora el acné, reduce arrugas y equilibra el tono de piel.</p>
+                        </div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <div class="tech-info">
+                            <h3>Microdermoabrasión con Punta de Diamante</h3>
+                            <p>Sistema de exfoliación mecánica de precisión que renueva la piel, mejora su textura y reduce imperfecciones como manchas y cicatrices.</p>
+                        </div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">
+                            <i class="fas fa-spray-can"></i>
+                        </div>
+                        <div class="tech-info">
+                            <h3>Dermapen</h3>
+                            <p>Microneedling que estimula colágeno y elastina, mejora cicatrices, arrugas y textura, dejando la piel más firme y renovada.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section (NUEVA SECCIÓN) -->
+    <section class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Productos Premium</h2>
+                <p>Seleccionamos las mejores marcas para cuidar tu piel</p>
+            </div>
+
+            <div class="product-categories">
+                <div class="category-item">
+                    <div class="category-icon">
+                        <i class="fas fa-soap"></i>
+                    </div>
+                    <h3>Limpiadores</h3>
+                    <p>Fórmulas suaves pero efectivas que eliminan impurezas sin alterar el equilibrio natural de la piel.</p>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <h3>Sérums</h3>
+                    <p>Concentrados de activos que penetran en profundidad para tratar problemas específicos como arrugas, manchas o pérdida de firmeza.</p>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <h3>Protección Solar</h3>
+                    <p>Protectores avanzados con filtros físicos y químicos que previenen el fotoenvejecimiento y las manchas.</p>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <h3>Tratamientos Nocturnos</h3>
+                    <p>Cremas y mascarillas regeneradoras que aprovechan el ciclo natural de renovación celular durante el sueño.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>¿No estás seguro de qué tratamiento necesitas?</h2>
+                <p>Agenda una consulta y nuestros especialistas te ayudarán a encontrar el tratamiento perfecto para tu tipo de piel y necesidades específicas.</p>
+                <a href="https://wa.me/5491134724947?text=Hola%2C%20quiero%20agendar%20una%20cita" target="_blank" class="btn btn-primary">Agendar Consulta</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>R&D Estetica Facial</h3>
+                    <p>Especialistas en tratamientos faciales personalizados para realzar tu belleza natural. Nuestro equipo de profesionales está comprometido con tu bienestar y satisfacción.</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/ryd_esteticafacial/"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/ryd_esteticafacial/"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contacto</h3>
+                    <ul class="footer-contact">
+                        <li>Victor Vergani 632, Pilar, Buenos Aires</li>
+                        <li>+54 9 11 3472-4947</li>
+                        <li>Lunes a Viernes: 9:00 - 20:00</li>
+                        <li>Sábados: 10:00 - 18:00</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> R&D Estetica Facial. Todos los derechos reservados.</p>
+                <div class="footer-legal">
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Términos y Condiciones</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scipts.js"></script>
+
+</body>
+</html>

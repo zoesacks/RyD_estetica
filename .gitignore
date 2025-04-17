@@ -2,16 +2,6 @@
 
 db.sqlite3
 
-# Ignorar las migraciones dentro de la carpeta administracion
-
-#administracion/migrations
-#contaduria/migrations
-#ingresos/migrations
-#solicitud/migrations
-#tablas/migrations
-
-#administracion/__pycache__
-#contaduria/__pycache__
-#ingresos/__pycache__
-#solicitud/__pycache__
-#tablas/__pycache__
+*.pyc
+__pycache__/
+venv/
