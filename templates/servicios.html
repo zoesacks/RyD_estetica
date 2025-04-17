@@ -14,7 +14,7 @@
     <nav class="navbar">
         <div class="container">
             <div class="navbar-content">
-                <a href="index.html" class="logo">R&D Estetica Facial</a>
+                <a href="{% url 'home' %}" class="logo">R&D Estetica Facial</a>
                 <div class="menu-toggle" id="menuToggle">
                     <i class="fas fa-bars"></i>
                 </div>
@@ -236,6 +236,15 @@
     </footer>
 
     <script src="scipts.js"></script>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+    
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>
 
 </body>
 </html>

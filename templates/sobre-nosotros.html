@@ -164,7 +164,7 @@
       
                 <li onclick="toggleCert('cosmeatria')"><i class="fas fa-certificate"></i> Certificación en Cosmeatria - Idraet ProInstitute (2024)</li>
                 <div id="cert-cosmeatria" class="cert-img hidden">
-                  <img src="{% static 'img/certificado_cosmeatria.jpg' %}" alt="Certificado Cosmeatría">
+                  
                 </div>
       
                 <li onclick="toggleCert('peeling')"><i class="fas fa-certificate"></i> Peeling Combinado de Verano - Idraet ProInstitute (2023)</li>
@@ -346,6 +346,15 @@
         cert.classList.toggle('hidden');
         }
   </script>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>
    
 </body>
 </html>

@@ -1502,6 +1502,15 @@ section {
     .tech-info {
         text-align: center;
     }
+
+    .menu-toggle {
+        display: none;
+    }
+
+    .nav-menu {
+        display: flex !important;
+        flex-direction: row;
+    }
 }
 
 @media (max-width: 576px) {
@@ -1516,6 +1525,14 @@ section {
     
     .certifications-logos {
         grid-template-columns: 1fr;
+    }
+    .menu-toggle {
+        display: none;
+    }
+
+    .nav-menu {
+        display: flex !important;
+        flex-direction: row;
     }
 }
 

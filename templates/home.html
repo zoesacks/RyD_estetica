@@ -155,7 +155,7 @@
                         <div class="author-avatar">M</div>
                         <div class="author-info">
                             <h4>María Fernández</h4>
-                            <p>Cliente desde 20232</p>
+                            <p>Cliente desde 2023</p>
                         </div>
                     </div>
                 </div>
@@ -310,7 +310,7 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="{% static 'js/script.js'%}"></script>
 
 
     <script>
@@ -329,5 +329,14 @@
             window.open(url, '_blank'); // Abre en una nueva pestaña
         });
     </script>
+
+<script>
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    menuToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+    });
+</script>
 </body>
 </html>
