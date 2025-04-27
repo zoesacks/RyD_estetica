@@ -2,41 +2,57 @@
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R&D Estetica Facial</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Estética Facial y Corporal en Pilar | R&D Estética</title>
     
-    <style>
-        .cert-img {
-          margin-top: 10px;
-        }
-      
-        .cert-img img {
-          max-width: 100%;
-          height: auto;
-          border-radius: 10px;
-          box-shadow: 0px 0px 10px #ccc;
-        }
-      
-        .hidden {
-          display: none;
-        }
-      
-        .certifications-list li {
-          cursor: pointer;
-          margin-bottom: 10px;
-          transition: color 0.3s;
-        }
-      
-        .certifications-list li:hover {
-          color: #a954a5;
-        }
-      </style>
-      
-</head>
+        <!-- Meta descripción para SEO -->
+        <meta name="description" content="Tratamientos faciales, corporales y antiage en Pilar. Realzá tu belleza natural con R&D Estética. Consultanos.">
+    
+        <!-- Palabras clave -->
+        <meta name="keywords" content="estética facial Pilar, tratamientos faciales, tratamientos corporales, limpieza de piel Pilar, antiage Pilar, rejuvenecimiento facial Pilar">
+    
+        <!-- Open Graph para compartir en redes sociales -->
+        <meta property="og:title" content="Estética Facial y Corporal en Pilar | R&D Estética">
+        <meta property="og:description" content="Cuidamos tu piel con tratamientos faciales, corporales y antiage en Pilar.">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://rydestetica.com.ar/">
+        <meta property="og:image" content="https://rydestetica.com.ar/static/img/logo.jpg"> <!-- Asegurate que esta imagen exista y esté bien subida -->
+    
+        <!-- Favicon -->
+        <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    
+        <!-- Estilos -->
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        
+        <!-- Estilos internos para certificaciones -->
+        <style>
+            .cert-img {
+                margin-top: 10px;
+            }
+            .cert-img img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 10px;
+                box-shadow: 0px 0px 10px #ccc;
+            }
+            .hidden {
+                display: none;
+            }
+            .certifications-list li {
+                cursor: pointer;
+                margin-bottom: 10px;
+                transition: color 0.3s;
+            }
+            .certifications-list li:hover {
+                color: #a954a5;
+            }
+        </style>
+    </head>
+    
 <body>
     <!-- Navbar -->
     <nav class="navbar">
