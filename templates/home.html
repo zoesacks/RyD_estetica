@@ -19,7 +19,8 @@
         <meta property="og:description" content="Luce una piel radiante con nuestros tratamientos faciales y corporales en Pilar. Calidad y resultados naturales.">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://rydestetica.com.ar/">
-        <meta property="og:image" content="{% static 'img/logo.png' %}"> <!-- Cambia esta ruta si tenés otra imagen -->
+        <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo.png' %}" />
+ <!-- Cambia esta ruta si tenés otra imagen -->
     
         <!-- Favicon (opcional pero recomendado) -->
         <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
