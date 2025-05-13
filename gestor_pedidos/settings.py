@@ -4,7 +4,6 @@ Project ADEMA
 
 from pathlib import Path
 import os
-from django.contrib.staticfiles.storage import ManifestStaticFilesStorage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -130,10 +129,8 @@ else:
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "staticfiles"),
 ]
-class NonStrictManifestStorage(ManifestStaticFilesStorage):
-    manifest_strict = False
 
-STATICFILES_STORAGE = 'gestor_pedidos.settings.NonStrictManifestStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 
 MEDIA_URL = '/media/'
