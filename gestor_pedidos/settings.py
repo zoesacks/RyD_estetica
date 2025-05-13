@@ -131,7 +131,7 @@ STATICFILES_DIRS = [
 class NonStrictManifestStorage(ManifestStaticFilesStorage):
     manifest_strict = False
 
-STATICFILES_STORAGE = 'your_project.settings.NonStrictManifestStorage'
+STATICFILES_STORAGE = 'gestor_pedidos.settings.NonStrictManifestStorage'
 
 
 MEDIA_URL = '/media/'
