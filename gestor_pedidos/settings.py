@@ -4,6 +4,7 @@ Project ADEMA
 
 from pathlib import Path
 import os
+from django.contrib.staticfiles.storage import ManifestStaticFilesStorage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -126,13 +127,15 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
+class NonStrictManifestStorage(ManifestStaticFilesStorage):
+    manifest_strict = False
 
+STATICFILES_STORAGE = 'your_project.settings.NonStrictManifestStorage'
 
 
 MEDIA_URL = '/media/'
-if DEBUG == True:
+if DEBUG:
     MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 else:
     MEDIA_ROOT = '/root/aplicaciones/gestor_pedidos/media/'
@@ -214,6 +217,9 @@ JAZZMIN_SETTINGS = {
         "cocina.orden": "fas fa-file",
         "cocina.receta": "fas fa-dolly-flatbed",
         "cocina.subReceta": "fas fa-clipboard-list",
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
 
         # "administracion.Configuracion": "fas fa-cog",
         # "administracion.gastosAdicionales": "fas fa-cart-plus",
@@ -252,11 +258,7 @@ JAZZMIN_SETTINGS = {
 
     # Custom icons for side menu apps/models See https://fontawesome.com/icons?d=gallery&m=free&v=5.0.0,5.0.1,5.0.10,5.0.11,5.0.12,5.0.13,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.13.0,5.12.0,5.11.2,5.11.1,5.10.0,5.9.0,5.8.2,5.8.1,5.7.2,5.7.1,5.7.0,5.6.3,5.5.0,5.4.2
     # for the full list of 5.13.0 free icon classes
-    "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
-    },
+
     # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",
