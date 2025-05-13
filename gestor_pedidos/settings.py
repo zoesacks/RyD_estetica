@@ -75,8 +75,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'gestor_pedidos.wsgi.application'
-
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -128,7 +126,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
 
 
 
